@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title%} tracker {% endblock%}
+{% block content %}
+ <div class="container py-5">
+    <form method="POST" action="{% url 'tracker' %}">  {% csrf_token  %}
+        <div class="row">
+          <div class="col py-2">
+            <input type="text" class="form-control" placeholder="tracking id" name="orderid" required>
+          </div>
+          <div class=" col py-2">
+            <button type="submit" style ="color:white !important;" class="btn btn-primary px-3">Track</button>
+          </div>
+        </div>
+      </form>
+
+      <div>
+       
+       {% if update %}
+        
+       <ul class="list-group">
+        <li class="list-group-item active">Update Details</li>
+        {% for i in update %}
+        <li class="list-group-item"> 
+
+            <div class="alert alert-success" role="alert">
+                {{i}}
+              </div>
+        </li>
+        {% endfor %}
+      </ul>
+        
+
+       {% endif %}
+  </div>
+  {% if nothing %}
+  <div class="alert alert-danger" role="alert">
+    Sorry, You have provided wrong order ID
+  </div>
+  {% endif %}
+       
+ </div>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+{% endblock content %}
+
+{% block js %}
+
+ 
+
+{% endblock %}

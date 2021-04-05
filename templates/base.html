@@ -1,0 +1,494 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+    <title>  {% block title %} shop{% endblock %}</title>
+
+    
+
+    <!-- Bootstrap core CSS -->
+    
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/7743583702.js" crossorigin="anonymous"></script>
+<link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <!-- Favicons -->
+    {% block css %}
+ <style>
+  .head{
+    font-weight: 600;
+  }
+  nav .nav-item a{
+    color:black !important;
+    font-weight: 600;
+  }
+  nav a .fas{
+    
+    font-size:20px !important;
+  }
+  /*swiper js */
+ 
+   
+    .card span{
+      font-weight: 600;
+    }
+    /* footer*/
+#footer{
+background-color:rgba(0,0,0,0.9);
+}
+#footer h5{
+color:white;
+font-weight:600 !important;
+}
+#footer .fab,.fas,.far{
+color:rgba(255,255,255,1);
+font-size:25px;
+margin-right:7px;
+margin-top:5px;
+}
+#home{
+   
+  font-size:28px !important;
+}
+#footer .fab:hover{
+color:rgba(255,255,255,0.4);
+text-decoration:none;
+}
+footer a{
+color:#fb7813;
+}
+footer a:hover{
+text-decoration:none;
+}
+a.custom-card,
+ a.custom-card:hover {
+   color: inherit;
+   text-decoration: none;
+ }
+ /*product view */
+ .mySlides img,.gallery img{
+  vertical-align: middle;
+}
+
+/* Position the image container (needed to position the left and right arrows) */
+ 
+
+/* Hide the images by default */
+ 
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+ 
+
+/* Container for image text */
+ 
+ .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+/* demo */
+.div2 {
+  
+  height:300px;
+  width: 100%;
+ 
+}
+form .form-group label{
+  font-weight: 600 !important;
+}
+ 
+/*  search field */
+ form #search{
+   border-radius: 20px;
+ }
+ form #s-icon{
+   border: none !important;
+   margin-left: -40px;
+   background: none;
+   z-index: 1239;
+   font-size: 7px !important
+ }
+ form #s-icon:focus{
+   
+   outline: none;
+ }
+ form #s-icon .fa-search{
+   font-size: 20px !important;
+   line-height: 12px;
+ }
+ #new-search{
+   margin-left:-20px !important;
+ }
+#new-search{
+  display: none;
+}
+@media(max-width:768px){
+  #new-search{
+  display: block;
+}
+#pc-search{
+  display: none;
+}
+}
+#load{
+  background: #fff url("https://media.giphy.com/media/y1ZBcOGOOtlpC/giphy.gif") no-repeat center;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+}
+ 
+ 
+ </style>
+ 
+ {% endblock %}
+
+   
+    <!-- Custom styles for this template -->
+  
+  </head>
+  <body onload="loading()">
+    <!--loader-->
+     <div id="load">
+     </div>
+   
+    <!--
+       <img class="d-block w-100" src="/media/{{i.image}}" alt="First slide">
+    -->  
+     <!--navbar-->
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/"><i class="fas fa-home text-primary" id="home"></i></a>
+    
+      <form class="navbar-form form-inline ml-auto" method="GET" action="/search" id="new-search">
+        <div class="input-group search-box">
+          <input type="search" class="form-control mr-2" name="search" placeholder="Search for Product" id="search" required>
+          <div class="input-group-append">
+            <button type="submit" id="s-icon"><i class="fas fa-search text-muted"></i></button>
+          </div>
+        </div>
+      </form>	
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/category/?category=Trending">Trending <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/category/?category=Mens">Mens</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/category/?category=Womens">Womens</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link track" href="{% url 'tracker' %}">Tracker</a>
+          </li>
+         
+        </ul>
+        <form class="navbar-form form-inline ml-auto" method="GET" action="/search" id="pc-search">
+          <div class="input-group search-box">
+            <input type="search" class="form-control mr-2" name="search" placeholder="Search for Product" id="search" required>
+            <div class="input-group-append">
+              <button type="submit" id="s-icon"><i class="fas fa-search text-muted"></i></button>
+            </div>
+          </div>
+        </form>	
+        
+        <a type="button" class="btn btn-primary my-2 text-right"  href="{% url 'cart_checkout' %}">
+          Cart(<span id='cart_no'>0</span>)
+         </a>
+         
+      </div>
+    </nav>
+ <!--navbar-->
+ 
+ 
+        
+            {% block content %}
+            <!--demo-->
+         
+           
+          <!-- Swiper -->
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              {% for i in banner %}
+              <div class="swiper-slide">
+                <div class="div2" style="background: url(/media/{{i.image}}) no-repeat center;background-size:contain;">
+                   
+                </div>
+                
+              </div>
+               {% endfor %}
+            </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+         
+ 
+            <!--product show-->
+           
+            <section id="trending">
+              
+             
+              <h3 class="head pl-4">Trending</h3>
+              <div class="d-flex flex-row flex-wrap px-4">
+                {% for item in product %}
+                {% if item.category == 'Trending' %}
+                
+                  <div class="card" style="width: 18rem;">
+                    <a href="{% url 'product' item.id %}" class="custom-card">
+                    <img class="card-img-top" src="/media/{{item.image}}" style="height: 300px;" loading="lazy">
+                  </a>
+                    <div class="card-body">
+                      <span class="" id="namepr{{item.id}}">{{item.name}}</span></br>
+                      &#8377;<span  id="pricepr{{item.id}}">{{item.price}}</span>
+                      <div class="d-flex flex-row-reverse bd-highlight">
+                        <span id="divpr{{item.id}}" class="divpr">
+                          <a  id="pr{{item.id}}" class="btn btn-warning btn-sm cart">ADD TO CART</a>
+                        </span>
+                        
+                         
+                      </div>
+                    </div>
+                  </div>
+               
+               
+                {% endif %}
+                {% endfor %}
+              </div>
+              <div class="text-center py-2"> <a href="/category/?category=Trending" class="btn btn-primary">VIEW ALL</a></div>
+             
+            </section>
+        
+            <section id="mens">
+              
+               
+              
+              <h3 class="head pl-4">Mens</h3>
+               
+              <div class="d-flex flex-row flex-wrap px-4">
+                {% for item in product %}
+                {% if item.category == 'Mens' %}
+               
+                <div class="card" style="width: 18rem;">
+                  <a href="{% url 'product' item.id %}" class="custom-card">
+                  <img class="card-img-top" src="/media/{{item.image}}" style="height: 300px;" loading="lazy">
+                </a>
+                  <div class="card-body">
+                    <span class="" id="namepr{{item.id}}">{{item.name}}</span></br>
+                    &#8377;<span  id="pricepr{{item.id}}">{{item.price}}</span>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                      <span id="divpr{{item.id}}" class="divpr">
+                        <a  id="pr{{item.id}}" class="btn btn-warning btn-sm cart">ADD TO CART</a>
+                      </span>
+                      
+                       
+                    </div>
+                  </div>
+                </div>
+               
+               
+                {% endif %}
+                {% endfor %}
+              </div>
+              <div class="text-center py-2"> <a href="/category/?category=Mens" class="btn btn-primary">VIEW ALL</a></div>
+             
+            </section>
+           
+            <section id="womens">
+            
+              
+              <h3 class="head pl-4">Womens</h3>
+              
+               
+              <div class="d-flex flex-row flex-wrap px-4">
+                {% for item in product %}
+                {% if item.category == 'Womens' %}
+                
+                <div class="card" style="width: 18rem;">
+                  <a href="{% url 'product' item.id %}" class="custom-card">
+                  <img class="card-img-top" src="/media/{{item.image}}" style="height: 300px;" loading="lazy">
+                </a>
+                  <div class="card-body">
+                    <span class="" id="namepr{{item.id}}">{{item.name}}</span></br>
+                    &#8377;<span  id="pricepr{{item.id}}">{{item.price}}</span>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                      <span id="divpr{{item.id}}" class="divpr">
+                        <a  id="pr{{item.id}}" class="btn btn-warning btn-sm cart">ADD TO CART</a>
+                      </span>
+                      
+                       
+                    </div>
+                  </div>
+                </div>
+              
+                 
+                {% endif %}
+                {% endfor %}
+              </div>
+              <div class="text-center py-2"> <a href="/category/?category=Womens" class="btn btn-primary">VIEW ALL</a></div>
+            
+            </section>
+          
+      
+         
+           
+
+            {% endblock %}
+          <!--footer-->
+          <section id="footer" class="py-3">
+
+            <div class="container py-5">
+            <div class="row">
+            <div class="col-lg-4 col-md-6 py-3">
+            <div class="text-left">
+             
+             <h5>About Us </h5>
+             
+            <p class="text-muted text-capitalize">We provide premium Quality and branded product on cheapest price.cash on delivery available. 
+              easily returnable  </p>
+             
+            
+            </div>
+            </div>
+            <div class="col-lg-4 col-md-6 py-3">
+            <div class="text-left">
+             
+             
+            <h5>Help & Support</h5>
+            <div><i class="fab fa-whatsapp"></i><span class="text-muted">9983894985</span>  </div>
+             <div> <i class="fas fa-phone-alt"></i><span class="text-muted">9983894985</span>  </div>
+            <div><i class="far fa-envelope"></i><span class="text-muted">chaurasiya383@gmail.com</span>  </div>
+             
+            
+            </div>
+            </div>
+            <div class="col-lg-4 col-md-6 py-3">
+            <div class="text-left">
+             
+            <h5>Connect with Us</h5>
+            
+             
+            <a class="fab fa-facebook-f"></a>
+            <a class="fab fa-twitter"></a>
+            <a class="fab fa-instagram"></a>
+            
+            </div>
+            </div>
+            </div>
+            </div>
+            </section>
+     
+      
+   
+            <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+ 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+            <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+              <!-- Initialize Swiper -->
+      
+              <!--trending swiper-->
+              <script>
+                var swiper = new Swiper('.swiper-container', {
+                  navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                  },
+                });
+              </script>
+               <!--add to cart-->
+               <script>
+                function ChangeImage(e){
+                  document.getElementById('mainImage').src=e.src 
+                }
+                  //cart function
+    //check cart empty or not
+    if(localStorage.getItem('cart')===null){
+     var  cart= {}
+    }
+    else{
+      cart=JSON.parse(localStorage.getItem('cart'))
+      
+    }
+     //add to cart button action
+     $('.divpr').on('click','.cart',function(e){
+      
+         var pr_id=e.target.id.toString();
+        
+         if(cart[pr_id]!=undefined){
+         
+          swal("Cart", "Item already in Cart", "warning");
+        
+            
+         }
+         else{
+          swal("Cart", "Item successful added", "success");
+           qty=1
+           name=document.getElementById('name'+pr_id).innerHTML;
+           price=Number(document.getElementById('price'+pr_id).innerHTML);
+           size='l'
+           cart[pr_id]=[qty,name,price,size]
+        //sweet alert
+       
+            
+         }
+         
+         document.getElementById('cart_no').innerText=Object.keys(cart).length
+         localStorage.setItem('cart',JSON.stringify(cart))
+          
+        })
+    
+        document.getElementById('cart_no').innerText=Object.keys(cart).length
+
+   
+          
+              //clearcart button action
+              
+ 
+                
+                   
+     // loader
+     function loading(){
+     document.getElementById('load').style.display='none'
+     }         
+                
+                    
+                 
+              </script>
+               
+             
+              {% block js %}
+           
+              {% endblock %}
+    </body>
+</html>
+ 

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title%} {{product.name}}{% endblock%}
+{% block content %}
+ 
+ 
+ <!--demo--> 
+ <div class="container">
+    <div class="row">
+         
+        <div class="col-lg-6">
+          <div class="mySlides">
+            
+  <img class="d-block w-100 img-fluid MainImage" src='/media/{{product.image}}' style="width:100%" id="mainImage" loading="lazy">
+</div>
+
+ 
+ <div class="gallery">
+    <div class="row">
+        {% for pi in product.productimage_set.all %}
+        <div class="column">
+          
+          <img class="demo cursor" src="/media/{{pi.image}}" style="width:100%" id="" onclick="ChangeImage(this)" loading="lazy">
+        </div>
+       
+       {% endfor %}
+        
+       
+      </div>
+ </div>
+  
+ 
+    </div>
+        <div class="col-lg-6">
+          <ul class="list-group">
+              <li class="list-group-item active font-weight-bold">Product Details</li>
+              <li class="list-group-item"><b>Name:</b> {{product.name}} </li>
+              
+              <li class="list-group-item"><b>Price:&#8377;</b>{{product.price}} </li>
+              <li class="list-group-item"><b>Description:</b>  {{product.description}}</li>
+              <li class="list-group-item"><b>Available Size:</b>  {{product.size}}</li>
+              <li class="list-group-item"><b>Shipping Charge:</b>  {{product.shipping}}</li>
+              <li class="list-group-item"><b>Returnable:</b>  <span class="text-success">{{product.returnable}}</span>  </li>
+              <li class="list-group-item"><b>Payment:</b> Cash on Delivery   </li>
+            </ul>
+            <div class="py-3">
+              
+                
+              
+                
+              
+               
+              <a type="button" href="{% url 'checkout'  product.id %}" class="btn btn-primary font-weight-bold">BUY NOW</a>
+            </div>
+      </div>
+     
+       
+</div>
+</div>
+{% endblock content %}
+
+
+
+{% block js %}
+ <script>
+   function ChangeImage(e){
+     document.getElementById('mainImage').src=e.src 
+   }
+    
+       // add inc, dec button in cart button
+         
+    
+ </script>
+       
+ 
+{% endblock %}
+ 
+
+ 
+ 
+<!--jh-->
+ 

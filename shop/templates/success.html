@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title%} confirm order {% endblock%}
+{% block content %}
+ <div class="container">
+    <div class="alert alert-success py-2" role="alert">
+        <h4 class="alert-heading">Confirm Order!</h4>
+        <p>Thank you {{name}}, for order</p>
+        <hr>
+        <b>Note:-</b><span>Your Order ID is {{order_id}},You can track your order using this ID</span>
+      </div>
+      <div class="text-center">
+        <a  href="/" type="button" class="btn btn-primary">Back to Home</a>
+      </div>
+       
+ </div>
+{% endblock content %}

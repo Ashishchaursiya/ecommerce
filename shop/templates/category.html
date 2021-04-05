@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title%} {{category}} {% endblock%}
+{% block content %}
+ <h3 class="head text-center py-2">{{category}}</h3>
+ <section id="trending">
+              
+             
+  
+  <div class="d-flex flex-row flex-wrap px-4">
+    {% for item in product %}
+    
+      <div class="card" style="width: 18rem;">
+        <a href="{% url 'product' item.id %}" class="custom-card">
+          <img class="card-img-top" src="/media/{{item.image}}" style="height: 300px;" loading="lazy">
+        </a>
+        <div class="card-body">
+          <span id="namepr{{item.id}}">{{item.name}}</span></br>
+          &#8377;<span id="pricepr{{item.id}}">{{item.price}}</span>
+          <div class="d-flex flex-row-reverse bd-highlight">
+                        
+            <span id="divpr{{item.id}}" class="divpr">
+              <a  id="pr{{item.id}}" class="btn btn-warning btn-sm cart">ADD TO CART</a>
+            </span>
+             
+          </div>
+        </div>
+      </div>
+    
+    
+       
+    {% endfor %}
+  </div>
+  
+ 
+</section>
+{% endblock content %}

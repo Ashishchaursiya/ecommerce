@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title %} checkout{% endblock %}
+{% block content %}
+ 
+<!--demo-->
+<div class="container py-3">
+    <div class="row">
+        <div class="col-lg-6">
+            <ul class="list-group">
+
+                <li class="list-group-item active font-weight-bold">Order Summary</li>
+                <input type="hidden" name="id" id="pro_id" value="{{product.id}}">
+                <li class="list-group-item"><b>Name:</b> <span id="pro_name">{{product.name}} </span>   </li>
+                <li class="list-group-item"><b>Price:</b>  &#8377; {{product.price}}  </li>
+                <li class="list-group-item"><b>Quantity:</b>
+                     <input type="number" value='1' class="form-control" id="qty" min="1" oninput="calculate(this.value)" required>  </li>
+                <li class="list-group-item text-right"><b>Total:</b>   <span id="price">{{product.price}}  </span> </li>
+                
+               
+    
+              </ul>
+        </div>
+        <div class="col-lg-6">
+            <h5 class="font-weight-bold py-2"> Delivery Address</h5>
+            <form method="POST" action="{% url 'checkout' product.id %}" onsubmit="Inform()">  {% csrf_token  %}
+                <input type="hidden" name="itemjson" id="itemjson" >
+                
+                <div class="form-row">
+                  <div class="form-group col-md-6" id="namediv">
+                    <label for="inputEmail4">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required>
+                  </div>
+                  <div class="form-group col-md-6" id="size">
+                    <label for="inputPassword4">Product Size</label>
+                    <input type="text" class="form-control"  name="size" placeholder="L,M,XL" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputtel">Mob No</label>
+                    <input type="tel" class="form-control" id="mob" name="phone" placeholder="Enter Number" max="10" required>
+                  </div>
+                <div class="form-group">
+                  <label for="inputAddress">Address</label>
+                  <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required>
+                </div>
+                <div class="form-group">
+                  <label for="inputAddress2">Landmark & House no</label>
+                  <input type="text" class="form-control" name="landhouse" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputCity">District</label>
+                    <input type="text" class="form-control" id="city" name="district" placeholder="city name" required>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <input type="text" class="form-control" id="state" name="state" placeholder="Enter state" required>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputZip">Pin code</label>
+                    <input type="text" class="form-control" id="Zip" name="pincode" placeholder="pin_code" required>
+                  </div>
+                </div>
+               
+                <button type="submit" class="btn btn-primary">Place order</button>
+              </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+     //disable input box for watch
+    var prodname= document.getElementById('pro_name')
+    
+    var res = prodname.innerText.match(/watch/gi)
+    console.log(res)
+    if(res){
+      document.getElementById('size').style.display='none'
+      document.getElementById('namediv').classList.add('col-lg-12')
+    }
+   
+     console.log(prodname)
+    //calculate total price
+         var qty = document.getElementById('qty');
+    var price = Number(document.getElementById('price').innerText);
+    var pricehtml = document.getElementById('price');
+    function calculate(e){
+    
+        if(qty.value!=0)
+        {
+        quantity = Number(e)
+            var total=price*quantity;
+        pricehtml.innerText=total;
+       
+        }    
+    }
+   //create cart store info
+   function Inform(){
+     
+      carts = {}
+      carts['name'] = document.getElementById('pro_name').innerText;
+      carts['quantity'] =$('#qty').val();
+      carts['price'] = document.getElementById('price').innerText;
+      $('#itemjson').val(JSON.stringify(carts))
+      
+      
+   }
+
+</script>
+{% endblock %}

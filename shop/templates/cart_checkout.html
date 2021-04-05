@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% block title %} checkout{% endblock %}
+{% block content %}
+ 
+<!--demo-->
+ 
+<div class="container py-3">
+  <div>
+    <ul class="list-group" id='item'>
+      
+      </ul>
+   
+  </div>
+    <div class="row" id="details">
+        <div class="col-lg-6">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Item</th>
+                      <th scope="col">Qty</th>
+                      <th scope="col">Size</th>
+                      <th scope="col">Price</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="rowitem"> 
+                   
+              
+                  
+                
+                
+                  </tbody>
+                </table>
+              </div>
+              <div class="text-right" id="bill">
+                 
+                 
+              </div>
+        </div>
+        <div class="col-lg-6">
+            <h5 class="font-weight-bold py-2"> Delivery Address</h5>
+            <form method="POST" action="{% url 'cart_checkout' %}" onsubmit="Sendform()">  {% csrf_token  %}
+                <input type="hidden" name="itemjson" id="itemjson" >
+                
+                <div class="form-row">
+                  <div class="form-group col-md-6 col-lg-12">
+                    <label for="inputEmail4">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required>
+                  </div>
+                  
+                </div>
+                <div class="form-group">
+                    <label for="inputtel">Mob No</label>
+                    <input type="tel" class="form-control" id="mob" name="phone" placeholder="Enter Number" max="10" required>
+                  </div>
+                <div class="form-group">
+                  <label for="inputAddress">Address</label>
+                  <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required>
+                </div>
+                <div class="form-group">
+                  <label for="inputAddress2">Landmark & House no</label>
+                  <input type="text" class="form-control" name="landhouse" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputCity">District</label>
+                    <input type="text" class="form-control" id="city" name="district" placeholder="city name" required>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <input type="text" class="form-control" id="state" name="state" placeholder="Enter state" required>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputZip">Pin code</label>
+                    <input type="text" class="form-control" id="Zip" name="pincode" placeholder="pin_code" required>
+                  </div>
+                </div>
+               
+                <button type="submit" class="btn btn-primary">Place order</button>
+              </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+       if($.isEmptyObject(cart)){
+        str=`<div class="alert alert-danger" role="alert">
+  Cart is empty
+</div>`
+        $('#item').append(str);
+        $('#details').hide();
+    } 
+    else{
+      var total_bill=0
+        for(var item in cart){
+      
+        let qty=cart[item][0]
+        let name=cart[item][1]
+        let price=cart[item][2]
+        total_bill=total_bill+qty*price
+        let str=`   <tr>
+          <th scope="row">${name}</th>
+                      <td> <input type="number" value='${qty}' class="form-control qty" id="${item}" min="1" oninput="Set_qty(this)" onfocusout="Set_correct(this)" required></td>
+                      <td><input type="text" value='' class="form-control size" id="${item}" min="L" oninput="Set_size(this)"></td>
+                      <td><span id="${item}" class="price">${price}</span> </td>
+                     
+                      <td><button type="button" id="${item}" class="btn btn-danger" onclick="Close(this)">x</button></td>
+                    </tr>  `
+            $('#rowitem').append(str)
+        
+   
+    }
+    let bill_str=`<b>Total:&#8377;<span id="total-bill">${total_bill}</span></b>`
+    $('#bill').append(bill_str) 
+
+  }
+  //delete item
+  function Close(e){
+    var qtyelement = document.getElementsByClassName('qty');
+    var priceelement = document.getElementsByClassName('price');
+    var billelement = document.getElementById('total-bill');
+    for (i = 0; i < qtyelement.length; i++){
+       if(qtyelement[i].id==e.id){
+         var qty = qtyelement[i].value
+         var price = priceelement[i].innerText
+         billelement.innerText = billelement.innerText-(qty*price);
+         e.parentElement.parentElement.remove()
+         delete cart[e.id]
+         localStorage.setItem('cart',JSON.stringify(cart))
+         document.getElementById('cart_no').innerText=Object.keys(cart).length
+         
+       }
+    }
+
+   // e.parentElement.parentElement.remove()
+
+
+
+
+
+
+   
+  }
+  //update size
+  function Set_size(e){
+     if(e.value!==''){
+       cart[e.id][3]=e.value
+      
+       localStorage.setItem('cart',JSON.stringify(cart))
+  
+     }
+  }
+  //set correct value in input box
+  function Set_correct(e){
+    if(isNaN(e.value) || e.value<=0){
+      e.value =1
+    }
+  }
+   
+         
+      
+       
+    function Set_qty(e){
+      var total=0
+      var qtyelement = document.getElementsByClassName('qty');
+    var priceelement = document.getElementsByClassName('price');
+    var billelement = document.getElementById('total-bill');
+     if(e.value!=''){
+      cart[e.id][0]=e.value
+      
+      localStorage.setItem('cart',JSON.stringify(cart))
+      //call total fn
+      calculate_total();
+    
+       
+       
+     
+     }
+  }
+  //total bill 
+  var billelement = document.getElementById('total-bill');
+  function calculate_total(){
+    var total =0;
+    for(var item in cart){
+      
+      let qty=cart[item][0]
+    
+      let price=cart[item][2]
+      total=total+qty*price
+    }
+    billelement.innerText =total;
+  }
+  
+//submit form
+function Sendform(){
+  $('#itemjson').val(JSON.stringify(cart))
+  localStorage.clear();
+}
+//disable input box
+</script>
+{% endblock %}
