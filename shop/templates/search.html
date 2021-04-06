@@ -14,14 +14,16 @@
           <img class="card-img-top" src="/media/{{item.image}}" style="height: 300px;" loading="lazy">
         </a>
         <div class="card-body">
-          <span id="namepr{{item.id}}">{{item.name}}</span></br>
-          &#8377;<span id="pricepr{{item.id}}">{{item.price}}</span>
-          <div class="d-flex flex-row-reverse bd-highlight">
-                        
-            <span id="divpr{{item.id}}" class="divpr">
-              <a  id="pr{{item.id}}" class="btn btn-warning btn-sm cart">ADD TO CART</a>
-            </span>
-             
+          <div class="d-flex justify-content-between">
+            <div>
+              <span class="" id="namepr{{item.id}}">{{item.name}}</span></br>
+              &#8377;<span  id="pricepr{{item.id}}">{{item.price}}</span>
+            </div>
+            <div>
+              <span id="divpr{{item.id}}" class="divpr">
+                <a  id="pr{{item.id}}" class="btn btn-warning btn-sm cart">ADD TO CART</a>
+              </span>
+            </div>
           </div>
         </div>
       </div>
