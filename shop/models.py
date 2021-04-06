@@ -24,7 +24,7 @@ class ProductImage(models.Model):
     image =  models.ImageField(upload_to="media/images",default='')  
 
     def __str__(self):
-        return self.product.id  
+        return '{}'.format(self.product.id) 
 
 class Order(models.Model):
     order_id=models.AutoField(primary_key=True)
